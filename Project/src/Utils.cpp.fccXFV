@@ -1,0 +1,111 @@
+#include "Utils.hpp"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include "Eigen/Eigen"
+
+using namespace std;
+using namespace Eigen;
+
+namespace LibreriaFratture {
+bool ImportaCoordinate(const string &filename, FrattureMesh& mesh ){
+
+
+    ifstream file(filename);
+    if(!file.is_open())
+    {
+        return false;
+    }
+
+
+    //cout<<"apertura corretta del file"<<endl;
+
+    // Ignora la prima riga
+    string first_line;
+    getline(file, first_line);
+
+    //Lettura del numero di fratture
+    string line;
+    unsigned int NumberFractures = 0;
+    getline(file, line);
+    NumberFractures = stoi(line); // Converti la stringa in un intero
+
+    cout<<"il numero di fratture: "<< NumberFractures << endl;
+
+
+    // arrivato qua ha letto correttamente il numero di fratture, adesso deve registrare id e numero di vertici, in modo ciclico
+
+    //qua ci va un ciclo for che va fino a numberFractures
+
+    //legge la linea delle intestazioni per le fracture id  e num vertices
+    string line_fractureid;
+    getline(file, line_fractureid);
+    //cout << line_fractureid<<endl;
+
+
+
+
+    istringstream converter(line);
+    unsigned int Fractureid, numVertices;
+
+    // Legge l'id
+    string token;
+    if (getline(converter, token, ';'))
+        Fractureid = stoi(token);
+    cout<<Fractureid<<endl;
+
+    if (getline(converter, token, ';'))
+        numVertices = stoi(token);
+    cout<<numVertices<<endl;
+
+
+
+
+
+
+
+
+    // // procediamo con la lettura delle matrici
+    // for (unsigned int i = 0; i < NumberFractures; ++i) {
+    //     // Ignora la prima riga con # dove vengono indicate i number of fracture e i numvertices
+    //     getline(file,first_line);
+
+    //     istringstream converter(first_line);   // probabilmente qua c'è un errore
+    //     unsigned int FractureId, numVertices;
+
+    //     string token;
+    //     if (getline(converter, token, ';'))
+    //         FractureId = stoi(token);
+
+    //     cout<<"Id fratture "<<FractureId<<endl;
+
+    //     if (getline(converter, token, ';'))
+    //         numVertices = stoi(token);
+    //     cout<<"Numero di vertici " << numVertices << endl;
+
+
+
+    //     // Ignora la riga vuota
+    //     getline(file, first_line);
+
+    //     // Allocazione della matrice per le coordinate
+    //     MatrixXd coordinates(3, numVertices);
+
+    //     // Lettura delle coordinate
+    //     for (unsigned int dim = 0; dim < 3; ++dim) {
+    //         for (unsigned int vert = 0; vert < numVertices; ++vert) {
+
+    //             }
+    //         }
+    //     }
+
+
+
+
+    mesh.NumeroFratture = NumberFractures;
+
+    file.close();
+    return true;
+
+}
+}

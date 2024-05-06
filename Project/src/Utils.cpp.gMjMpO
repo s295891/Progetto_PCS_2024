@@ -1,0 +1,96 @@
+#include "Utils.hpp"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include "Eigen/Eigen"
+
+using namespace std;
+using namespace Eigen;
+
+namespace LibreriaFratture {
+bool ImportaCoordinate(const string &filename, FrattureMesh& mesh ){
+
+
+    ifstream file(filename);
+    if(!file.is_open())
+    {
+        return false;
+    }
+
+
+    //cout<<"apertura corretta del file"<<endl;
+
+    // Ignora la prima riga
+    string first_line;
+    getline(file, first_line);
+
+
+
+    //Lettura del numero di fratture
+    // string line;
+
+    // getline(file, line);
+    // NumberFractures = stoi(line); // Converti la stringa in un intero
+
+    unsigned int NumberFractures;
+    file >> NumberFractures ;
+
+    cout<<"il numero di fratture: "<< NumberFractures << endl;
+
+
+
+
+
+    // arrivato qua ha letto correttamente il numero di fratture, adesso deve registrare id e numero di vertici, in modo ciclico
+
+    ;//qua ci va un ciclo for che va fino a numberFractures
+
+
+    string line_fractureid;
+    getline(file, line_fractureid);  // legge la riga con scritto # FractureId; Numvertices
+
+
+
+    string line_int_fracturId;
+    getline(file,line_int_fracturId);
+    stringstream ss(line_int_fracturId);
+    // lettura dell' id e del numero di vertici
+    unsigned int  FractureId, NumVertices;
+    char separatore; // che nel mio file corrisponde a ;
+
+    ss >> FractureId >> separatore >> NumVertices;
+    //cout << "Fracture id " << NumVertices << endl;
+
+    string line_vertices; // legge la riga con scritto # Vertices
+    getline(file, line_vertices);
+
+
+
+    //passiamo ora alla lettura della matrice
+    string line;
+    istringstream converter(line);
+    string token;
+    for (unsigned int i = 0, i < 3, ++i)
+    {
+
+        vector<double> coordinate(numVertices);
+        for (unsigned int j = 0, j < numVertices, ++j)
+        {
+            if(getline(converter, token, ';')){
+                coordinate[j] = stod(token);
+                cout<<coordinate[j]<<endl;
+            }
+        }
+
+    }
+
+
+
+
+    mesh.NumeroFratture = NumberFractures;
+
+    file.close();
+    return true;
+
+}
+}

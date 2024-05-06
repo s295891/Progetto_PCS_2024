@@ -1,0 +1,90 @@
+#include "Utils.hpp"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include "Eigen/Eigen"
+
+using namespace std;
+using namespace Eigen;
+
+namespace LibreriaFratture {
+bool ImportaCoordinate(const string &filename, FrattureMesh& mesh ){
+
+
+    ifstream file(filename);
+    if(!file.is_open())
+    {
+        return false;
+    }
+
+
+    //cout<<"apertura corretta del file"<<endl;
+
+    // Ignora la prima riga
+    string first_line;
+    getline(file, first_line);
+
+
+
+    //Lettura del numero di fratture
+    // string line;
+
+    // getline(file, line);
+    // NumberFractures = stoi(line); // Converti la stringa in un intero
+
+    unsigned int NumberFractures;
+    file >> NumberFractures ;
+
+    cout<<"il numero di fratture: "<< NumberFractures << endl;
+
+
+
+
+
+    // arrivato qua ha letto correttamente il numero di fratture, adesso deve registrare id e numero di vertici, in modo ciclico
+
+    //qua ci va un ciclo for che va fino a numberFractures
+    // Ciclo per leggere i dati di ogni frattura
+    for (unsigned int i = 0; i < NumberFractures; ++i) {
+        // Ignora la riga con scritto "# FractureId; Numvertices"
+        string line_fractureid;
+        getline(file, line_fractureid);
+
+        // Leggi FractureId e NumVertices
+        unsigned int FractureId, NumVertices;
+        char separatore;
+        file >> FractureId >> separatore >> NumVertices;
+
+        // Ignora la riga con scritto "# Vertices"
+        string line_vertices;
+        getline(file, line_vertices);
+
+        // Leggi i vertici
+        for (unsigned int j = 0; j < NumVertices; ++j) {
+            string line;
+            getline(file, line);
+            istringstream converter(line);
+            string token;
+            vector<double> coordinate(3);
+            for (unsigned int k = 0; k < 3; ++k) {
+                if (getline(converter, token, ';')) {
+                    coordinate[k] = stod(token);
+                }
+            }
+            // Ora puoi fare qualcosa con il vettore coordinate, ad esempio:
+            mesh.CoordinateFratture[FractureId] = MatrixXd::Map(&coordinate[0], 3, NumVertices);
+        }
+    }
+    //    mesh.NumeroFratture = NumberFractures;
+
+    file.close();
+    return true;
+}
+}
+
+
+
+
+
+}
+}

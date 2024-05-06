@@ -1,0 +1,30 @@
+#include "Utils.hpp"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include "Eigen/Eigen"
+
+using namespace std;
+using namespace Eigen;
+
+namespace LibreriaFratture {
+bool ImportaCoordinate(const string &filename, FrattureMesh& mesh ){
+
+
+    ifstream file(filename);
+    if(!file.is_open())
+    {
+        return false;
+    }
+
+
+    cout<<"apertura corretta del file"<<endl;
+
+    file >> mesh.NumeroFratture;
+    //cout<<"il numero di mesh è" <<mesh.NumeroFratture<<endl;
+
+
+    file.close();
+    return true;
+}
+}

@@ -93,12 +93,18 @@ bool ImportaCoordinate(const string &filename, FrattureMesh& mesh ){
 
 
 
+            // Calcoliamo i baricentri delle fratture
+            Vector3d Centro ={};
 
+            for (unsigned int i=0; i<3; ++i){
+                double somma = 0;
+                for(unsigned int h =0; h < NumVertices; ++h){
+                    somma += coordinate_vertices(i,h);
 
-
-
-
-
+                }
+                Centro[i] = somma / NumVertices;
+                cout << "coordinate centro" << Centro[i];
+            }
 
 
 

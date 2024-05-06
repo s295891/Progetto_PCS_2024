@@ -16,6 +16,7 @@ struct FrattureMesh
     unsigned int NumeroFratture = 0;
     map < unsigned int, MatrixXd > CoordinateFratture ={};
 
+    map < unsigned int, Vector3d > CoordinateBaricentro = {};
 
 
 };

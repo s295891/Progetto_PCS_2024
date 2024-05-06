@@ -93,9 +93,7 @@ bool ImportaCoordinate(const string &filename, FrattureMesh& mesh ){
 
 
 
-
-
-
+            // Calcoliamo i baricentri delle fratture
 
 
 

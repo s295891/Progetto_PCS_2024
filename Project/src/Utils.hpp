@@ -12,6 +12,6 @@ namespace LibreriaFratture {
 
 bool ImportaCoordinate(const string &filename, FrattureMesh& mesh );
 
-bool BaricentroFratture(FrattureMesh& mesh);
+bool EquazioneDelPiano(FrattureMesh& mesh);
 
 }
